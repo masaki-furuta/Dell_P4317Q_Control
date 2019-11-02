@@ -276,7 +276,7 @@ def format_response(command, response, param):
         print "PxP/PiP Mode         = " + modes[response[0]]
     elif (command == "pxpsubinput"):
         inputs = { v[0]: k for k, v in pxp_input.items() }
-        print "PxP/PiP Sub Input[" + str(param+1) + "] = " + inputs[int(response[0])]
+        print "PxP/PiP Sub Input[" + str(param) + "] = " + inputs[int(response[0])]
     elif (command == "pxplocation"):
         locations = { v: k for k, v in pxp_locations.items() }
         print "PiP Window Location  = " + locations[int(response[0])]
@@ -636,7 +636,7 @@ if (len(sys.argv) >= 4):
             param = pxp_input[sys.argv[3]]
         elif (sys.argv[2] == "pxpsubinput"):
             print "pxpsubinput"
-            param = bytearray([int(sys.argv[3])-1])
+            param = bytearray([int(sys.argv[3])])
             param += pxp_input[sys.argv[4]]
             print "param:  " + p4317q_hex_format(param)
         else:
