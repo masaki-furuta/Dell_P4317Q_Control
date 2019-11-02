@@ -45,6 +45,8 @@ def print_usage():
     print "    powerstate, powerled, powerusb"
     print "    brightness, contrast, aspectratio, sharpness"
     print "    inputcolorformat, colorpreset, customcolor"
+    print "       Color Preset Names:"
+    print "           standard, paper, warm, cool, custom"
     print "    autoselect, videoinput"
     print "       Video Input Names:"
     print "           vga, dp, mdp, hdmi1, hdmi2"
@@ -93,6 +95,8 @@ def p4317q_hex_format(message):
 def p4317q_checksum(message, begin, length):
     "Calculate the single byte checksum of the input data"
     total = 0 
+    print_debug("DB:  begin     = " + str(begin))
+    print_debug("DB:  length    = " + str(length))
     for index in range(begin,begin+length):
         #total += message[index]
         total ^= message[index]
@@ -622,6 +626,8 @@ if (len(sys.argv) >= 4):
     if (sys.argv[1] == "set"):
         if   (sys.argv[2] == "osdlanguage"):
             param = osd_language[sys.argv[3]]
+        elif (sys.argv[2] == "colorpreset"):
+            param = color_presets[sys.argv[3]]
         elif (sys.argv[2] == "pxplocation"):
             param = pxp_locations[sys.argv[3]]
         elif (sys.argv[2] == "pxpmode"):
