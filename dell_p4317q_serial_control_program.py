@@ -210,8 +210,8 @@ def p4317q_handle_command(action, command, param):
     cmd = p4317q_build_command(action, command, param)
     print_debug("DEBUG:  Command:  [" + p4317q_hex_format(cmd) + "]")
 
-    # port = serial.Serial("COM3")
-    port = serial.Serial("COM3", baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=0, rtscts=0)
+    # port = serial.Serial("/dev/ttyUSB0")
+    port = serial.Serial("/dev/ttyUSB0", baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=0, rtscts=0)
 
     p4317q_send_command(port, cmd)
 
