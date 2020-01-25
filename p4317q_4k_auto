@@ -14,6 +14,6 @@ ${CMD} get sharpness
 
 ${CMD} set pxpmode 4k
 
-${CMD} set videoinput ${I0}
-#${CMD} set autoselect 2
+#${CMD} set videoinput ${I0}
+${CMD} set autoselect 4
 ${CMD} get videoinput

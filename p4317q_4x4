@@ -11,6 +11,8 @@ I3=${4:-mdp}
 
 ${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
 
+${CMD} set pxpmode 4x4
+
 for WIN in {0..3};do
     IN=I${WIN}
     echo "${WIN}: ${!IN}"
@@ -19,3 +21,6 @@ for WIN in {0..3};do
     sleep .5
     echo
 done
+
+${CMD} set sharpness 50
+${CMD} get sharpness

@@ -4,7 +4,8 @@
 
 CMD=dell_p4317q_serial_control_program.py
 
-I0=${1:-mdp}
+I0=${1:-dp}
+I1=${2:-hdmi1}
 
 ${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
 
@@ -15,5 +16,11 @@ ${CMD} get sharpness
 ${CMD} set pxpmode 4k
 
 ${CMD} set videoinput ${I0}
-#${CMD} set autoselect 2
+${CMD} set pxpmode bigPip 
+${CMD} set pxpmode smallPip 
+${CMD} set pxpsubinput 1 ${I1}
+${CMD} set pxplocation bottomRight
+for I in {0..3}; do
+    ${CMD} get pxpsubinput $I
+done
 ${CMD} get videoinput
