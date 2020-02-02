@@ -29,6 +29,10 @@ IN4=${5:-hdmi2}
 declare -a INPUT=("${IN0}" "${IN1}" "${IN2}" "${IN3}" "${IN4}")
 
 power_cycle() {
+    if [[ "${IN0}" =~ np ]];then
+        return
+    fi
+    read -p "Are you sure to power-cycling ?"
     sleep .5
     #${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
     ${CMD} set powerstate 0
@@ -41,7 +45,7 @@ init_sub() {
         echo "Default settings for input:"
         echo -e "\t" vga ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]}
         exit
-    elif [ ${MOD} == 4x4 -a ${OPT} -ge 1 ];then
+    elif [ ${MOD} == 4x4 -a ${OPT} -ge 1 -a ${IN0} != 'np' ];then
         echo "Cannot set input"
         exit 1
     fi
@@ -49,7 +53,7 @@ init_sub() {
     INDEX=0
     for IN in ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]};do
         ${CMD} set pxpsubinput ${INDEX} ${IN}
-        sleep .5
+        sleep 1
         echo ${INDEX}: ${IN}
         INDEX=$((${INDEX}+1))
     done 
