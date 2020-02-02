@@ -8,6 +8,18 @@ SHP=50
 
 OPT=$#
 
+# Layout:
+# 
+# 4x4:
+#
+#  3 | 4
+# ---+---
+#  2 | 1
+#
+# SxS:
+#
+#  2 | 1
+
 IN0=${1:-vga}
 IN1=${2:-dp}
 IN2=${3:-mdp}
@@ -17,9 +29,10 @@ IN4=${5:-hdmi2}
 declare -a INPUT=("${IN0}" "${IN1}" "${IN2}" "${IN3}" "${IN4}")
 
 power_cycle() {
+    sleep .5
     #${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
     ${CMD} set powerstate 0
-    sleep 2
+    sleep 6
     ${CMD} set powerstate 1
 }
 
@@ -32,6 +45,7 @@ init_sub() {
         echo "Cannot set input"
         exit 1
     fi
+    sleep .5
     INDEX=0
     for IN in ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]};do
         ${CMD} set pxpsubinput ${INDEX} ${IN}
@@ -42,10 +56,12 @@ init_sub() {
 }
 
 init_mode_and_sharp() {
+    sleep .5
     ${CMD} set pxpmode ${MOD}
+    sleep .5
     ${CMD} set sharpness ${SHP}
 }
 
-power_cycle
 init_sub
 init_mode_and_sharp
+power_cycle
