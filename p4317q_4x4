@@ -3,24 +3,44 @@
 #set -xv
 
 CMD=dell_p4317q_serial_control_program.py
+MOD=$(basename ${0##*_})
+SHP=50
 
-I0=${1:-hdmi1}
-I1=${2:-hdmi2}
-I2=${3:-dp}
-I3=${4:-mdp}
+IN0=${1:-vga}
+IN1=${2:-dp}
+IN2=${3:-mdp}
+IN3=${4:-hdmi1}
+IN4=${5:-hdmi2}
 
-${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
+declare -a INPUT=("${IN0}" "${IN1}" "${IN2}" "${IN3}" "${IN4}")
 
-${CMD} set pxpmode 4x4
+power_on() {
+    ${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
+}
 
-for WIN in {0..3};do
-    IN=I${WIN}
-    echo "${WIN}: ${!IN}"
-    #${CMD} get pxpsubinput $WIN;
-    ${CMD} set pxpsubinput ${WIN} ${!IN}
-    sleep .5
-    echo
-done
+init_sub() {
+    if [[ "${IN0}" =~ help ]];then
+        echo "Default settings for input:"
+        echo -e "\t" vga ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]}
+        exit
+    elif [ ${MOD} == 4x4 -a $# -le 2 ];then
+        echo "Cannot set input"
+        exit 1
+    fi
+    INDEX=0
+    for IN in ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]};do
+        ${CMD} set pxpsubinput ${INDEX} ${IN}
+        sleep .5
+        echo ${INDEX}: ${IN}
+        INDEX=$((${INDEX}+1))
+    done 
+}
 
-${CMD} set sharpness 50
-${CMD} get sharpness
+init_mode_and_sharp() {
+    ${CMD} set pxpmode ${MOD}
+    ${CMD} set sharpness ${SHP}
+}
+
+power_on
+init_sub
+init_mode_and_sharp
