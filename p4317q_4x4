@@ -14,8 +14,11 @@ IN4=${5:-hdmi2}
 
 declare -a INPUT=("${IN0}" "${IN1}" "${IN2}" "${IN3}" "${IN4}")
 
-power_on() {
-    ${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
+power_cycle() {
+    #${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
+    ${CMD} set powerstate 0
+    sleep 2
+    ${CMD} set powerstate 1
 }
 
 init_sub() {
@@ -41,6 +44,6 @@ init_mode_and_sharp() {
     ${CMD} set sharpness ${SHP}
 }
 
-power_on
+power_cycle
 init_sub
 init_mode_and_sharp
