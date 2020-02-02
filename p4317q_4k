@@ -6,6 +6,8 @@ CMD=dell_p4317q_serial_control_program.py
 MOD=$(basename ${0##*_})
 SHP=50
 
+OPT=$#
+
 IN0=${1:-vga}
 IN1=${2:-dp}
 IN2=${3:-mdp}
@@ -26,7 +28,7 @@ init_sub() {
         echo "Default settings for input:"
         echo -e "\t" vga ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]}
         exit
-    elif [ ${MOD} == 4x4 -a $# -le 2 ];then
+    elif [ ${MOD} == 4x4 -a ${OPT} -ge 1 ];then
         echo "Cannot set input"
         exit 1
     fi
