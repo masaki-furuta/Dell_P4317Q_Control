@@ -33,12 +33,20 @@ power_cycle() {
     if [[ "${IN0}" =~ np ]];then
         return
     fi
-    read -p "Are you sure to power-cycling ?"
-    sleep .5
-    #${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
-    ${CMD} set powerstate 0
-    sleep 6
-    ${CMD} set powerstate 1
+    read -t 4 -p "Are you sure to power-cycling ? [N/y] " NY
+    NY=${NY:-N}
+    case $yn in
+        [Yy]*)
+            sleep .5
+            ${CMD} set powerstate 0
+            sleep 6
+            ${CMD} set powerstate 1
+            ;;
+        [Nn]*)
+            ;;
+        *)
+            ;;
+    esac
 }
 
 init_sub() {
@@ -47,11 +55,19 @@ init_sub() {
         echo -e "\t" vga ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]}
         exit
     fi
-    #elif [ ${MOD} == 4x4 -a ${OPT} -ge 1 -a ${IN0} != 'np' ];then
     if [ ${MOD} == 4x4 ];then
         INPUT[0]=vga
     elif [ ${MOD} == 4k ];then
         ${CMD} set videoinput ${INPUT[1]}
+    elif [ ${MOD} == pip ];then
+        ${CMD} set videoinput ${INPUT[1]}
+        sleep 2
+        #${CMD} set pxpmode bigPip
+        ${CMD} set pxpmode smallPip
+        sleep 6
+        ${CMD} set pxplocation bottomRight
+        sleep .5
+        ${CMD} set pxpsubinput 1 ${INPUT[2]}
     else
         sleep .5
         INDEX=0
@@ -65,12 +81,15 @@ init_sub() {
 }
 
 init_mode_and_sharp() {
+    if [ ${MOD} == pip ];then
+        local MOD=4k
+    fi
     sleep .5
     ${CMD} set pxpmode ${MOD}
     sleep .5
     ${CMD} set sharpness ${SHP}
 }
 
-init_sub
 init_mode_and_sharp
+init_sub
 power_cycle
