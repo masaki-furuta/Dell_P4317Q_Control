@@ -46,18 +46,22 @@ init_sub() {
         echo "Default settings for input:"
         echo -e "\t" vga ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]}
         exit
-    elif [ ${MOD} == 4x4 -a ${OPT} -ge 1 -a ${IN0} != 'np' ];then
-        echo "Cannot set input"
-        exit 1
     fi
-    sleep .5
-    INDEX=0
-    for IN in ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]};do
-        ${CMD} set pxpsubinput ${INDEX} ${IN}
-        sleep 1
-        echo ${INDEX}: ${IN}
-        INDEX=$((${INDEX}+1))
-    done 
+    #elif [ ${MOD} == 4x4 -a ${OPT} -ge 1 -a ${IN0} != 'np' ];then
+    if [ ${MOD} == 4x4 ];then
+        INPUT[0]=vga
+    elif [ ${MOD} == 4k ];then
+        ${CMD} set videoinput ${INPUT[1]}
+    else
+        sleep .5
+        INDEX=0
+        for IN in ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]};do
+            ${CMD} set pxpsubinput ${INDEX} ${IN}
+            sleep 1
+            echo ${INDEX}: ${IN}
+            INDEX=$((${INDEX}+1))
+        done 
+    fi
 }
 
 init_mode_and_sharp() {
