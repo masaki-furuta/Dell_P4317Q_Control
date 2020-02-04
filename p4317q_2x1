@@ -50,6 +50,16 @@ power_cycle() {
     echo
 }
 
+init_mode_and_sharp() {
+    if [ ${MOD} == pip ];then
+        local MOD=4k
+    fi
+    sleep .5
+    ${CMD} set pxpmode ${MOD}
+    sleep .5
+    ${CMD} set sharpness ${SHP}
+}
+
 init_sub() {
     if [[ "${IN0}" =~ help ]];then
         echo "Default settings for input:"
@@ -58,7 +68,8 @@ init_sub() {
     fi
     if [ ${MOD} == 4x4 ];then
         INPUT[0]=vga
-    elif [ ${MOD} == 4k ];then
+    fi
+    if [ ${MOD} == 4k ];then
         ${CMD} set videoinput ${INPUT[1]}
     elif [ ${MOD} == pip ];then
         ${CMD} set videoinput ${INPUT[1]}
@@ -79,16 +90,6 @@ init_sub() {
             INDEX=$((${INDEX}+1))
         done 
     fi
-}
-
-init_mode_and_sharp() {
-    if [ ${MOD} == pip ];then
-        local MOD=4k
-    fi
-    sleep .5
-    ${CMD} set pxpmode ${MOD}
-    sleep .5
-    ${CMD} set sharpness ${SHP}
 }
 
 init_mode_and_sharp
