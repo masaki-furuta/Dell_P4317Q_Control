@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#set -xv
+
+CMD=dell_p4317q_serial_control_program.py
+
+I0=${1:-mdp}
+
+${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
+
+${CMD} set sharpness 100
+${CMD} get sharpness
+
+
+${CMD} set pxpmode 4k
+
+${CMD} set videoinput ${I0}
+#${CMD} set autoselect 2
+${CMD} get videoinput

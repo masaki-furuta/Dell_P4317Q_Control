@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#set -xv
+
+CMD=dell_p4317q_serial_control_program.py
+
+I0=${1:-hdmi1}
+I1=${2:-hdmi2}
+I2=${3:-dp}
+I3=${4:-mdp}
+
+${CMD} get powerstate | grep -q  ON || ${CMD} set powerstate 1
+
+${CMD} set pxpmode 4x4
+
+for WIN in {0..3};do
+    IN=I${WIN}
+    echo "${WIN}: ${!IN}"
+    #${CMD} get pxpsubinput $WIN;
+    ${CMD} set pxpsubinput ${WIN} ${!IN}
+    sleep .5
+    echo
+done
+
+${CMD} set sharpness 50
+${CMD} get sharpness
