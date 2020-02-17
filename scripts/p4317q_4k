@@ -77,7 +77,8 @@ init_sub() {
         #${CMD} set pxpmode bigPip
         ${CMD} set pxpmode smallPip
         sleep 6
-        ${CMD} set pxplocation bottomRight
+        #${CMD} set pxplocation bottomRight
+        ${CMD} set pxplocation bottomLeft
         sleep .5
         ${CMD} set pxpsubinput 1 ${INPUT[2]}
     else
