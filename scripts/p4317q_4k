@@ -59,6 +59,8 @@ init_mode_and_sharp() {
     ${CMD} set pxpmode ${MOD}
     sleep .5
     ${CMD} set sharpness ${SHP}
+    sleep .5
+    ${CMD} set autoselect 0
 }
 
 init_sub() {
