@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 #set -xv
@@ -36,7 +37,7 @@ power_cycle() {
     fi
     read -t 4 -p "Are you sure to power-cycling ? [N/y] " NY
     NY=${NY:-N}
-    case $yn in
+    case $NY in
         [Yy]*)
             sleep .5
             ${CMD} set powerstate 0
@@ -80,8 +81,8 @@ init_sub() {
         #${CMD} set pxpmode bigPip
         ${CMD} set pxpmode smallPip
         sleep 6
-        #${CMD} set pxplocation bottomRight
-        ${CMD} set pxplocation bottomLeft
+        ${CMD} set pxplocation bottomRight
+        #${CMD} set pxplocation bottomLeft
         sleep .5
         ${CMD} set pxpsubinput 1 ${INPUT[2]}
     else
