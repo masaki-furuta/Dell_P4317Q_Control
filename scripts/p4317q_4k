@@ -8,6 +8,7 @@ CMD=dell_p4317q_serial_control_program.py
 MOD=$(basename ${0##*_})
 SHP=50
 SHP=100
+SHP=75
 
 OPT=$#
 
@@ -29,12 +30,14 @@ IN2=${3:-mdp}
 IN3=${4:-hdmi1}
 IN4=${5:-hdmi2}
 
+PIP=bigPip
+PIP=smallPip
+PLC=bottomLeft
+PLC=bottomRight
+
 declare -a INPUT=("${IN0}" "${IN1}" "${IN2}" "${IN3}" "${IN4}")
 
 power_cycle() {
-    if [[ "${IN0}" =~ np ]];then
-        return
-    fi
     read -t 4 -p "Are you sure to power-cycling ? [N/y] " NY
     NY=${NY:-N}
     case $NY in
@@ -53,6 +56,22 @@ power_cycle() {
 }
 
 init_mode_and_sharp() {
+    if [[ "${IN0}" =~ help ]];then
+        echo "Default settings for input:"
+        echo -e "\t" ${INPUT[0]} ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]}
+        exit
+    elif [[ "${IN0}" =~ off ]];then
+        ${CMD} set powerstate 0
+        exit	
+    elif [[ "${IN0}" =~ on ]];then	
+        ${CMD} set powerstate 1
+        exit
+    elif [[ "${IN0}" =~ reset ]];then	
+        ${CMD} set powerstate 0
+	sleep 6
+        ${CMD} set powerstate 1
+        exit
+    fi
     if [ ${MOD} == pip ];then
         local MOD=4k
     fi
@@ -65,30 +84,20 @@ init_mode_and_sharp() {
 }
 
 init_sub() {
-    if [[ "${IN0}" =~ help ]];then
-        echo "Default settings for input:"
-        echo -e "\t" vga ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]}
-        exit
-    fi
-    if [ ${MOD} == 4x4 ];then
-        INPUT[0]=vga
-    fi
     if [ ${MOD} == 4k ];then
-        ${CMD} set videoinput ${INPUT[1]}
+        ${CMD} set videoinput ${INPUT[0]}
     elif [ ${MOD} == pip ];then
-        ${CMD} set videoinput ${INPUT[1]}
+        ${CMD} set videoinput ${INPUT[0]}
         sleep 2
-        #${CMD} set pxpmode bigPip
-        ${CMD} set pxpmode smallPip
+        ${CMD} set pxpmode ${PIP}
         sleep 6
-        ${CMD} set pxplocation bottomRight
-        #${CMD} set pxplocation bottomLeft
+        ${CMD} set pxplocation ${PLC}
         sleep .5
-        ${CMD} set pxpsubinput 1 ${INPUT[2]}
+        ${CMD} set pxpsubinput 1 ${INPUT[1]}
     else
         sleep .5
         INDEX=0
-        for IN in ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]};do
+        for IN in ${INPUT[0]} ${INPUT[1]} ${INPUT[2]} ${INPUT[3]} ${INPUT[4]};do
             ${CMD} set pxpsubinput ${INDEX} ${IN}
             sleep 1
             echo ${INDEX}: ${IN}
