@@ -72,6 +72,7 @@ init_mode_and_sharp() {
         ${CMD} set powerstate 1
         exit
     fi
+    ${CMD} set powerstate 1    
     if [ ${MOD} == pip ];then
         local MOD=4k
     fi
