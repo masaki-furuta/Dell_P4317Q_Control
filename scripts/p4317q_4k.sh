@@ -23,8 +23,8 @@ PATH=$PATH:~/.local/bin:$(dirname ${0})
 CMD=dell_p4317q_serial_control_program.py
 MOD=$(basename ${0##*_} | sed -e 's/\.sh$//g')
 SHP=50
-SHP=100
-SHP=75
+#SHP=100
+#SHP=75
 
 OPT=$#
 
