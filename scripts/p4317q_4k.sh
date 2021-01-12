@@ -1,5 +1,8 @@
 #!/bin/bash
 
+BINDIR=~/.local/bin
+. ${BINDIR}/require-host_func.sh
+
 python2 -m pip show pyserial > /dev/null 2>&1
 if [[ $? -ne 0 ]]; then
     set -xv

@@ -57,7 +57,7 @@ def print_usage():
     print "                      small inset picture-in-picture"
     print "           bigPip:    3840x2160 full screen (primary video input)"
     print "                      large inset picture-in-picture"
-    print "           4x4:       four 1920x1080 panes"
+    print "           2x2:       four 1920x1080 panes"
     print "           1x2:       one 3840x1080 window over 2x 1920x1080"
     print "           2x1:       one 1920x2160 window right of 2x 1920x1080"
     print "           SxS:       two 1920x2160 panes"
@@ -433,7 +433,7 @@ pxp_mode = { "4k": 0,
              "stretchSxS": 4,
              "2x1": 6,
              "1x2": 7,
-             "4x4": 8 }
+             "2x2": 8 }
 
 pxp_input = { "vga":   bytearray([0x40, 0x00, 0x00, 0x00]),
               "dp":    bytearray([0x08, 0x00, 0x00, 0x00]),
