@@ -53,6 +53,7 @@ PIP=bigPip
 PIP=smallPip
 PLC=bottomLeft
 PLC=bottomRight
+PLC=topRight
 
 declare -a INPUT=("${IN0}" "${IN1}" "${IN2}" "${IN3}" "${IN4}")
 
